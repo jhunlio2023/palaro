@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>DAVRAA - Davao Region Athletic Association</title>
+    <title>Palarong Pambansa</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Responsive bootstrap 4 admin template" name="description" />
     <meta content="Coderthemes" name="author" />
@@ -1472,11 +1472,21 @@
                                     class="btn btn-sm <?= $group === 'PARA' ? 'btn-primary' : 'btn-outline-primary'; ?>">
                                     PARAGAMES
                                 </a>
+                                
                             </div>
+                                <div class="group-pills">
+                                    <a target="_blank" href="<?= base_url(); ?>upload/Revised-List-of-Playing-Venues-4th-approved.pdf"
+                                        class="btn btn-sm btn-primary">
+                                        Event Venues
+                                    </a>
+                                </div>
+
                             <a href="<?= $loginUrl; ?>" class="login-btn" title="Admin">
                                 <?= $loginText; ?>
                             </a>
                         </div>
+
+                        
 
                         <!-- Summary row -->
                         <?php
@@ -1628,16 +1638,16 @@
 
                         <?php if (empty($activeMunicipality)): ?>
                             <div class="row summary-row">
-                                <div class="col-md-4 mb-3 mb-md-0">
+                                <!-- <div class="col-md-4 mb-3 mb-md-0">
                                     <div class="summary-card clickable" id="municipalityCard"
                                         data-toggle="modal" data-target="#municipalityModal"
                                         data-bs-toggle="modal" data-bs-target="#municipalityModal"
                                         role="button" tabindex="0">
                                         <div class="summary-label">Participating Delegations</div>
                                         <div class="summary-value" id="stat-municipalities"><?= $municipalities; ?></div>
-                                        <!-- <div class="summary-sub">Total registered teams</div> -->
+                                        <div class="summary-sub">Total registered teams</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-md-4 mb-3 mb-md-0">
                                     <div class="summary-card clickable" id="eventsRecordedCard" role="button" tabindex="0"
                                         aria-label="View events with posted results">
