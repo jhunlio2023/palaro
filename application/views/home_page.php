@@ -202,7 +202,7 @@
                     <div class="login-card">
                         <span class="login-pill"><i class="mdi mdi-shield-account-outline"></i> Admin Access</span>
                         <div class="login-header">
-                            <h3>Provincial Meet Console</h3>
+                            <h3>Palaro Console</h3>
                             <small>Sign in to manage official results and announcements.</small>
                         </div>
 
