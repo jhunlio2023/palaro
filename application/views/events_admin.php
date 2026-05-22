@@ -90,7 +90,7 @@
                         <div class="col-12 d-flex justify-content-between align-items-center">
                             <div>
                                 <h4 class="mb-1">Events Manager</h4>
-                                <p class="text-muted mb-0">Add, edit, or delete events; categories auto-fill when selecting an event.</p>
+                                <p class="text-muted mb-0">Add, edit, or delete events, including event group, playing venue, and location details.</p>
                             </div>
                             <div class="d-flex align-items-center" style="gap: 8px;">
                                 <button type="button" class="btn btn-outline-success btn-sm" id="filterWinnersBtn">
@@ -139,10 +139,13 @@
                                         <table class="table table-sm table-hover mb-0" id="eventsTable">
                                             <thead>
                                                 <tr>
-                                                    <th style="width:32%;">Event</th>
-                                                    <th style="width:18%;">Group</th>
-                                                    <th style="width:18%;">Category</th>
-                                                    <th style="width:20%;" class="winner-col">Winners</th>
+                                                    <th style="width:22%;">Event</th>
+                                                    <th style="width:12%;">Group</th>
+                                                    <th style="width:12%;">Category</th>
+                                                    <th style="width:14%;">Event Group</th>
+                                                    <th style="width:16%;">Playing Venue</th>
+                                                    <th style="width:14%;">Location</th>
+                                                    <th style="width:16%;" class="winner-col">Winners</th>
                                                     <th style="width:120px;" class="text-right">Actions</th>
                                                 </tr>
                                             </thead>
@@ -156,6 +159,9 @@
                                                             <td><?= htmlspecialchars($event->event_name, ENT_QUOTES, 'UTF-8'); ?></td>
                                                             <td><?= htmlspecialchars($event->group_name ?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
                                                             <td><?= htmlspecialchars($event->category_name ?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
+                                                            <td><?= htmlspecialchars($event->event_group_label ?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
+                                                            <td><?= htmlspecialchars($event->playing_venue ?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
+                                                            <td><?= htmlspecialchars($event->location ?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
                                                             <?php
                                                             $winnerCount = isset($event->winners_count) ? (int)$event->winners_count : 0;
                                                             $goldCount   = isset($event->gold_count) ? (int)$event->gold_count : 0;
@@ -192,7 +198,10 @@
                                                                         data-id="<?= (int)$event->event_id; ?>"
                                                                         data-name="<?= htmlspecialchars($event->event_name, ENT_QUOTES, 'UTF-8'); ?>"
                                                                         data-group-id="<?= $event->group_id !== null ? (int)$event->group_id : ''; ?>"
-                                                                        data-category-name="<?= htmlspecialchars($event->category_name ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                                                                        data-category-name="<?= htmlspecialchars($event->category_name ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                                                                        data-event-group-label="<?= htmlspecialchars($event->event_group_label ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                                                                        data-playing-venue="<?= htmlspecialchars($event->playing_venue ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                                                                        data-location="<?= htmlspecialchars($event->location ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </button>
                                                                     <form action="<?= site_url('provincial/delete_event/' . (int)$event->event_id); ?>"
@@ -214,7 +223,7 @@
                                                     <?php endforeach; ?>
                                                 <?php else: ?>
                                                     <tr>
-                                                        <td colspan="4" class="text-center text-muted">No events found.</td>
+                                                        <td colspan="8" class="text-center text-muted">No events found.</td>
                                                     </tr>
                                                 <?php endif; ?>
                                             </tbody>
@@ -269,6 +278,18 @@
                         <label>Category</label>
                         <input type="text" name="category_name" id="eventCategory" class="form-control" placeholder="Type a category name">
                         <small class="form-text text-muted">Leave blank if the event is uncategorized.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Event Group</label>
+                        <input type="text" name="event_group_label" id="eventGroupLabel" class="form-control" placeholder="Type the event group">
+                    </div>
+                    <div class="form-group">
+                        <label>Playing Venue</label>
+                        <input type="text" name="playing_venue" id="eventPlayingVenue" class="form-control" placeholder="Type the playing venue">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" name="location" id="eventLocation" class="form-control" placeholder="Type the location">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -337,7 +358,10 @@
             var $eventIdField = $('#eventIdField');
             var $eventNameInput = $('#eventName');
             var $eventGroupSelect = $('#eventGroup');
-            var $eventCategorySelect = $('#eventCategory');
+            var $eventCategoryInput = $('#eventCategory');
+            var $eventGroupLabelInput = $('#eventGroupLabel');
+            var $eventPlayingVenueInput = $('#eventPlayingVenue');
+            var $eventLocationInput = $('#eventLocation');
 
             function setEventCreateMode() {
                 $eventForm.attr('action', createEventAction);
@@ -346,7 +370,10 @@
                 $eventIdField.val('');
                 $eventNameInput.val('');
                 $eventGroupSelect.val('');
-                $eventCategorySelect.val('');
+                $eventCategoryInput.val('');
+                $eventGroupLabelInput.val('');
+                $eventPlayingVenueInput.val('');
+                $eventLocationInput.val('');
             }
 
             function setEventEditMode(data) {
@@ -356,7 +383,10 @@
                 $eventIdField.val(data.id || '');
                 $eventNameInput.val(data.name || '');
                 $eventGroupSelect.val(data.group_id || '');
-                $eventCategorySelect.val(data.category_name || '');
+                $eventCategoryInput.val(data.category_name || '');
+                $eventGroupLabelInput.val(data.event_group_label || '');
+                $eventPlayingVenueInput.val(data.playing_venue || '');
+                $eventLocationInput.val(data.location || '');
             }
 
             $('#openAddEventModal').on('click', function() {
@@ -369,7 +399,10 @@
                     id: $btn.data('id'),
                     name: $btn.data('name'),
                     group_id: ($btn.data('group-id') || '').toString(),
-                    category_name: ($btn.data('category-name') || '').toString()
+                    category_name: ($btn.data('category-name') || '').toString(),
+                    event_group_label: ($btn.data('event-group-label') || '').toString(),
+                    playing_venue: ($btn.data('playing-venue') || '').toString(),
+                    location: ($btn.data('location') || '').toString()
                 };
                 setEventEditMode(data);
                 $('#eventModal').modal('show');
@@ -395,11 +428,11 @@
 
             function applyEventsFilter() {
                 if (eventsTable) {
-                    eventsTable.column(3).visible(showWinnersOnly);
+                    eventsTable.column(6).visible(showWinnersOnly);
                     if (showWinnersOnly) {
                         // Sort by winners desc, then Event asc
                         eventsTable.order([
-                            [3, 'desc'],
+                            [6, 'desc'],
                             [0, 'asc']
                         ]).draw();
                     } else {
@@ -482,7 +515,7 @@
                     }],
                     autoWidth: false
                 });
-                eventsTable.column(3).visible(false);
+                eventsTable.column(6).visible(false);
                 eventsTable.on('draw', function() {
                     updateWinnerVisibility();
                 });

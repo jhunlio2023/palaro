@@ -463,7 +463,10 @@ CREATE TABLE `event_master` (
   `event_id` int(10) UNSIGNED NOT NULL,
   `event_name` varchar(255) NOT NULL,
   `group_id` tinyint(3) UNSIGNED NOT NULL,
-  `category_id` int(10) UNSIGNED DEFAULT NULL
+  `category_id` int(10) UNSIGNED DEFAULT NULL,
+  `event_group_label` varchar(150) DEFAULT NULL,
+  `playing_venue` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

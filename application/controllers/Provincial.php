@@ -746,17 +746,31 @@ class Provincial extends CI_Controller
     // CRUD: create event
     public function add_event()
     {
+        $this->require_login();
         $this->form_validation->set_rules('event_name', 'Event Name', 'required|trim');
         $this->form_validation->set_rules('group_id', 'Group', 'required|integer|greater_than[0]');
         $this->form_validation->set_rules('category_name', 'Category', 'trim');
+        $this->form_validation->set_rules('event_group_label', 'Event Group', 'trim');
+        $this->form_validation->set_rules('playing_venue', 'Playing Venue', 'trim');
+        $this->form_validation->set_rules('location', 'Location', 'trim');
 
         if ($this->form_validation->run()) {
-            $name         = $this->input->post('event_name', TRUE);
-            $groupId      = (int) $this->input->post('group_id', TRUE);
-            $categoryName = $this->input->post('category_name', TRUE);
-            $categoryId   = $categoryName !== '' ? $this->Events_model->ensure_category($categoryName) : null;
+            $name            = $this->input->post('event_name', TRUE);
+            $groupId         = (int) $this->input->post('group_id', TRUE);
+            $categoryName    = trim((string) $this->input->post('category_name', TRUE));
+            $eventGroupLabel = trim((string) $this->input->post('event_group_label', TRUE));
+            $playingVenue    = trim((string) $this->input->post('playing_venue', TRUE));
+            $location        = trim((string) $this->input->post('location', TRUE));
+            $categoryId      = $categoryName !== '' ? $this->Events_model->ensure_category($categoryName) : null;
 
-            $result = $this->Events_model->create_event($name, $groupId, $categoryId);
+            $result = $this->Events_model->create_event(
+                $name,
+                $groupId,
+                $categoryId,
+                $eventGroupLabel,
+                $playingVenue,
+                $location
+            );
 
             // New: handle structured result from model
             if (is_array($result) && array_key_exists('success', $result)) {
@@ -796,17 +810,24 @@ class Provincial extends CI_Controller
     // CRUD: update event
     public function update_event()
     {
+        $this->require_login();
         $this->form_validation->set_rules('event_id', 'Event ID', 'required|integer|greater_than[0]');
         $this->form_validation->set_rules('event_name', 'Event Name', 'required|trim');
         $this->form_validation->set_rules('group_id', 'Group', 'required|integer|greater_than[0]');
         $this->form_validation->set_rules('category_name', 'Category', 'trim');
+        $this->form_validation->set_rules('event_group_label', 'Event Group', 'trim');
+        $this->form_validation->set_rules('playing_venue', 'Playing Venue', 'trim');
+        $this->form_validation->set_rules('location', 'Location', 'trim');
 
         if ($this->form_validation->run()) {
-            $eventId      = (int) $this->input->post('event_id', TRUE);
-            $name         = $this->input->post('event_name', TRUE);
-            $groupId      = (int) $this->input->post('group_id', TRUE);
-            $categoryName = $this->input->post('category_name', TRUE);
-            $categoryId   = $categoryName !== '' ? $this->Events_model->ensure_category($categoryName) : null;
+            $eventId         = (int) $this->input->post('event_id', TRUE);
+            $name            = $this->input->post('event_name', TRUE);
+            $groupId         = (int) $this->input->post('group_id', TRUE);
+            $categoryName    = trim((string) $this->input->post('category_name', TRUE));
+            $eventGroupLabel = trim((string) $this->input->post('event_group_label', TRUE));
+            $playingVenue    = trim((string) $this->input->post('playing_venue', TRUE));
+            $location        = trim((string) $this->input->post('location', TRUE));
+            $categoryId      = $categoryName !== '' ? $this->Events_model->ensure_category($categoryName) : null;
 
             // Make sure the record exists
             $existing = $this->Events_model->get_event_details($eventId);
@@ -829,7 +850,15 @@ class Provincial extends CI_Controller
             }
 
             // Safe to update
-            $this->Events_model->update_event($eventId, $name, $groupId, $categoryId);
+            $this->Events_model->update_event(
+                $eventId,
+                $name,
+                $groupId,
+                $categoryId,
+                $eventGroupLabel,
+                $playingVenue,
+                $location
+            );
             $this->session->set_flashdata('success', 'Event updated.');
         } else {
             $this->session->set_flashdata('error', validation_errors('', ''));
@@ -841,6 +870,7 @@ class Provincial extends CI_Controller
     // CRUD: delete event
     public function delete_event($event_id = null)
     {
+        $this->require_login();
         $id = (int) $event_id;
         if ($id <= 0) {
             $this->session->set_flashdata('error', 'Invalid event.');

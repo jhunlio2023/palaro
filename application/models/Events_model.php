@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Events_model extends CI_Model
 {
+    protected function normalize_optional_text($value)
+    {
+        $value = trim((string) $value);
+        return $value === '' ? null : $value;
+    }
+
     /**
      * Fetch all categories for filtering/labels.
      */
@@ -110,12 +116,15 @@ class Events_model extends CI_Model
         return $this->db->count_all_results() > 0;
     }
 
-    public function create_event($name, $group_id, $category_id = null)
+    public function create_event($name, $group_id, $category_id = null, $eventGroupLabel = null, $playingVenue = null, $location = null)
     {
         $data = array(
-            'event_name'  => trim($name),
-            'group_id'    => (int) $group_id,
-            'category_id' => $category_id !== null ? (int) $category_id : null,
+            'event_name'        => trim($name),
+            'group_id'          => (int) $group_id,
+            'category_id'       => $category_id !== null ? (int) $category_id : null,
+            'event_group_label' => $this->normalize_optional_text($eventGroupLabel),
+            'playing_venue'     => $this->normalize_optional_text($playingVenue),
+            'location'          => $this->normalize_optional_text($location),
         );
 
         // ── Check for duplicate BEFORE insert (using helper) ─────────────
@@ -150,14 +159,17 @@ class Events_model extends CI_Model
         );
     }
 
-    public function update_event($event_id, $name, $group_id, $category_id = null)
+    public function update_event($event_id, $name, $group_id, $category_id = null, $eventGroupLabel = null, $playingVenue = null, $location = null)
     {
         return $this->db->update(
             'event_master',
             array(
-                'event_name'  => $name,
-                'group_id'    => (int) $group_id,
-                'category_id' => $category_id !== null ? (int) $category_id : null,
+                'event_name'        => trim($name),
+                'group_id'          => (int) $group_id,
+                'category_id'       => $category_id !== null ? (int) $category_id : null,
+                'event_group_label' => $this->normalize_optional_text($eventGroupLabel),
+                'playing_venue'     => $this->normalize_optional_text($playingVenue),
+                'location'          => $this->normalize_optional_text($location),
             ),
             array('event_id' => (int) $event_id)
         );
@@ -178,6 +190,9 @@ class Events_model extends CI_Model
             em.event_name,
             em.group_id,
             em.category_id,
+            em.event_group_label,
+            em.playing_venue,
+            em.location,
             eg.group_name,
             ec.category_name
         ');
@@ -200,6 +215,9 @@ class Events_model extends CI_Model
             em.event_name,
             em.group_id,
             em.category_id,
+            em.event_group_label,
+            em.playing_venue,
+            em.location,
             eg.group_name,
             ec.category_name,
             COUNT(w.id) AS winners_count,
@@ -233,6 +251,9 @@ class Events_model extends CI_Model
             'em.event_name',
             'em.group_id',
             'em.category_id',
+            'em.event_group_label',
+            'em.playing_venue',
+            'em.location',
             'eg.group_name',
             'ec.category_name'
         ));
@@ -252,6 +273,9 @@ class Events_model extends CI_Model
             em.event_name,
             em.group_id,
             em.category_id,
+            em.event_group_label,
+            em.playing_venue,
+            em.location,
             eg.group_name,
             ec.category_name
         ');
