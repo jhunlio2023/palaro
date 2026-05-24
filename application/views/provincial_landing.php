@@ -86,7 +86,7 @@
 
       setInterval(function () {
         if (canReload()) location.reload();
-      }, 10000);
+      }, 120000);
     });
   </script>
 </head>
@@ -580,7 +580,7 @@
     }
 
     /* Live tally card palette pulled from meet banner */
-    #liveTallyWrapper {
+    /* #liveTallyWrapper {
         background: linear-gradient(135deg, #f7e07b 0%, #f2c94c 35%, #e9b434 65%, #d59d1a 100%);
         border-color: rgba(213, 157, 26, 0.35);
     }
@@ -595,7 +595,31 @@
     #liveTallyWrapper .winners-subtext {
         color: #3b2a0a;
         text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
-    }
+    } */
+
+        #liveTallyWrapper {
+            background: #6b0000;
+            border: 1px solid rgba(128, 0, 32, 0.45);
+            box-shadow:
+                0 18px 36px rgba(61, 0, 15, 0.28),
+                0 0 0 1px rgba(128, 0, 32, 0.12);
+        }
+
+        #liveTallyWrapper .winners-toolbar {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        #liveTallyWrapper .winners-heading,
+        #liveTallyWrapper .winners-subtext {
+            color: #ffffff;
+            text-shadow: none;
+        }
+
+        #liveTallyWrapper #stat-last-update {
+            color: #f8d7da;
+        }
 
     /* Events with Results palette (match live tally) */
     #eventsRecordedPanel {
@@ -1392,6 +1416,474 @@
             -webkit-line-clamp: 3;
         }
     }
+
+    /* Event Schedule Board - below Live Tally */
+.event-schedule-board {
+    border-radius: 18px;
+    overflow: hidden;
+    background:
+        radial-gradient(140% 90% at 20% -10%, rgba(255, 255, 255, 0.12), transparent 45%),
+        radial-gradient(120% 120% at 90% 10%, rgba(120, 0, 0, 0.55), transparent 50%),
+        linear-gradient(135deg, #b30000 0%, #8b0000 48%, #4b0000 100%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+        0 18px 36px rgba(75, 0, 0, 0.34),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    position: relative;
+}
+
+.event-schedule-board::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.035) 0,
+            rgba(255, 255, 255, 0.035) 2px,
+            transparent 2px,
+            transparent 12px
+        );
+    pointer-events: none;
+}
+
+.event-schedule-inner {
+    position: relative;
+    z-index: 1;
+    padding: 22px 24px 24px;
+}
+
+.event-schedule-title {
+    margin: 0 0 18px;
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-shadow: 0 3px 0 rgba(0, 0, 0, 0.28);
+}
+
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.schedule-item {
+    display: grid;
+    grid-template-columns: 115px 1fr; /* yellow box width */
+    align-items: stretch;
+    min-height: 82px;
+    border-radius: 4px;
+    overflow: hidden;
+    filter: drop-shadow(0 7px 0 rgba(0, 0, 0, 0.24));
+}
+.schedule-date {
+    background: linear-gradient(180deg, #ffd21c 0%, #f6b800 100%);
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 6px;
+    border-radius: 3px 0 0 3px;
+    border-right: 3px solid rgba(0, 0, 0, 0.22);
+    text-transform: uppercase;
+}
+
+.schedule-date strong {
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.schedule-date span {
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    margin-top: 3px;
+}
+
+.schedule-content {
+    background: linear-gradient(180deg, #303235 0%, #222427 100%);
+    padding: 9px 18px;
+    border-radius: 0 3px 3px 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.schedule-content h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.35rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+}
+
+.schedule-content p {
+    margin: 4px 0 0;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.67rem;
+    font-weight: 700;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .event-schedule-inner {
+        padding: 18px 14px 20px;
+    }
+
+    .event-schedule-title {
+        font-size: 1.45rem;
+        text-align: center;
+    }
+
+    .schedule-item {
+        grid-template-columns: 76px 1fr;
+        min-height: 52px;
+    }
+
+    .schedule-date strong {
+        font-size: 0.85rem;
+    }
+
+    .schedule-date span {
+        font-size: 0.5rem;
+    }
+
+    .schedule-content {
+        padding: 8px 12px;
+    }
+
+    .schedule-content h3 {
+        font-size: 1rem;
+    }
+
+    .schedule-content p {
+        font-size: 0.58rem;
+    }
+}
+
+/* Announcement Board - red poster style */
+.announcement-board {
+    margin-top: 18px;
+    border-radius: 0;
+    overflow: hidden;
+    background:
+        linear-gradient(145deg, rgba(62, 0, 0, 0.70) 0 18%, transparent 18% 100%),
+        linear-gradient(325deg, transparent 0 78%, rgba(62, 0, 0, 0.55) 78% 100%),
+        linear-gradient(135deg, #c71920 0%, #b9151b 45%, #8f0b11 100%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 18px 36px rgba(75, 0, 0, 0.35);
+    position: relative;
+}
+
+.announcement-board::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(100% 80% at 0% 0%, rgba(55, 0, 0, 0.45), transparent 42%),
+        radial-gradient(100% 80% at 100% 100%, rgba(55, 0, 0, 0.38), transparent 42%);
+    pointer-events: none;
+}
+
+.announcement-board::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    bottom: 12px;
+    width: 115px;
+    height: 34px;
+    background:
+        repeating-linear-gradient(
+            -28deg,
+            rgba(0, 0, 0, 0.32) 0,
+            rgba(0, 0, 0, 0.32) 3px,
+            transparent 3px,
+            transparent 9px
+        );
+    opacity: 0.38;
+    pointer-events: none;
+}
+
+.announcement-inner {
+    position: relative;
+    z-index: 1;
+    padding: 30px 28px 34px;
+}
+
+/* Header */
+.announcement-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.announcement-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #a90f16;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.65rem;
+    box-shadow:
+        6px 6px 0 rgba(0, 0, 0, 0.22),
+        inset 0 0 0 5px #ffe4e6;
+    position: relative;
+}
+
+.announcement-icon::before {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 255, 255, 0.65);
+}
+
+.announcement-icon::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 9px;
+    width: 12px;
+    height: 12px;
+    background: #ffd21c;
+    border-radius: 50%;
+    box-shadow:
+        0 18px 0 #ffd21c,
+        0 36px 0 #ffd21c;
+}
+
+.announcement-icon i {
+    position: relative;
+    z-index: 1;
+    transform: rotate(-10deg);
+}
+
+.announcement-title-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.announcement-kicker {
+    margin: 0 0 5px;
+    color: #ffe4e6;
+    font-size: 0.68rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+}
+
+.announcement-title {
+    margin: 0;
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.045em;
+    line-height: 1;
+    text-shadow: 0 3px 0 rgba(0, 0, 0, 0.28);
+}
+
+/* List */
+.announcement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.announcement-item {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    min-height: 68px;
+    background: #ffffff;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow:
+        7px 7px 0 rgba(0, 0, 0, 0.18),
+        0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+/* Left label box */
+.announcement-date {
+    background: #ffe4e6;
+    color: #8b0d14;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 6px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.announcement-date strong {
+    font-size: 0.9rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+}
+
+.announcement-date span {
+    margin-top: 4px;
+    font-size: 0.50rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+
+/* White content box */
+.announcement-content {
+    background: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.announcement-content h3 {
+    margin: 0;
+    color: #a90f16;
+    font-size: 1.4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+    line-height: 1;
+}
+
+.announcement-content p {
+    margin: 6px 0 0;
+    color: rgba(139, 13, 20, 0.58);
+    font-size: 0.64rem;
+    font-weight: 800;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .announcement-inner {
+        padding: 24px 16px 28px;
+    }
+
+    .announcement-header {
+        gap: 13px;
+        margin-bottom: 18px;
+    }
+
+    .announcement-icon {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+        font-size: 1.25rem;
+        box-shadow:
+            4px 4px 0 rgba(0, 0, 0, 0.22),
+            inset 0 0 0 4px #ffe4e6;
+    }
+
+    .announcement-icon::before {
+        inset: -5px;
+    }
+
+    .announcement-icon::after {
+        right: -6px;
+        top: 7px;
+        width: 9px;
+        height: 9px;
+        box-shadow:
+            0 14px 0 #ffd21c,
+            0 28px 0 #ffd21c;
+    }
+
+    .announcement-kicker {
+        font-size: 0.56rem;
+        letter-spacing: 0.14em;
+    }
+
+    .announcement-title {
+        font-size: 1.45rem;
+    }
+
+    .announcement-list {
+        gap: 11px;
+    }
+
+    .announcement-item {
+        grid-template-columns: 72px 1fr;
+        min-height: 58px;
+        box-shadow:
+            5px 5px 0 rgba(0, 0, 0, 0.18),
+            0 0 0 1px rgba(255, 255, 255, 0.18);
+    }
+
+    .announcement-date strong {
+        font-size: 0.72rem;
+    }
+
+    .announcement-date span {
+        font-size: 0.42rem;
+    }
+
+    .announcement-content {
+        padding: 8px 12px;
+    }
+
+    .announcement-content h3 {
+        font-size: 0.95rem;
+    }
+
+    .announcement-content p {
+        font-size: 0.52rem;
+    }
+}
+
+.schedule-location {
+    margin: 5px 0 0;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.58rem;
+    font-weight: 700;
+}
+
+.schedule-content .schedule-encoder {
+    margin: 5px 0 0 !important;
+    color: rgba(255, 210, 28, 0.65) !important;
+    font-size: 0.52rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase;
+    line-height: 1.2 !important;
+}
+
+.schedule-content .schedule-encoder span {
+    color: rgba(255, 255, 255, 0.62) !important;
+    font-size: 0.52rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .schedule-date {
+        font-size:10px;
+        text-align:center;
+    }
+    .schedule-content h3{
+        font-size:10px;
+    }
+    .schedule-content p{
+        font-size:8px;
+    }
+}
+
 </style>
 
 <body>
@@ -1784,6 +2276,110 @@
                                 </div>
                             </div>
 
+                            <!-- Announcement Board -->
+<div class="announcement-board mt-3">
+    <div class="announcement-inner">
+
+        <div class="announcement-header">
+            <div class="announcement-icon">
+                <i class="bi bi-megaphone-fill"></i>
+            </div>
+
+            <div class="announcement-title-wrap">
+                <p class="announcement-kicker">Official Notice</p>
+                <h2 class="announcement-title">Announcement Board</h2>
+            </div>
+        </div>
+
+        <div class="announcement-list">
+
+            <!-- <div class="announcement-item">
+                <div class="announcement-date">
+                    <strong>Today</strong>
+                    <span>Update</span>
+                </div>
+
+                <div class="announcement-content">
+                    <h3>Welcome to the Official Results Board</h3>
+                    <p>Live tally and event schedules are updated regularly. Please refresh or revisit for the latest results.</p>
+                </div>
+            </div> -->
+
+            <?php 
+            $an = $this->Events_model->get_announcement(); 
+            foreach ($an as $row){
+            ?>
+            <div class="announcement-item">
+                <div class="announcement-date">
+                    <strong>Updates</strong>
+                    <span>Reminder</span>
+                </div>
+
+                <div class="announcement-content">
+                    <h3><?= $row->title; ?></h3>
+                    <p><?= $row->description; ?></p>
+                </div>
+            </div>
+            <?php } ?>
+            
+            
+
+        </div>
+    </div>
+</div>
+
+                            <!-- Event Schedule Board -->
+<div class="event-schedule-board mt-3">
+    <div class="event-schedule-inner">
+
+        <div class="event-schedule-header">
+            <div class="event-schedule-icon">
+                <i class="bi bi-calendar-event-fill"></i>
+            </div>
+
+            <div>
+                <p class="event-schedule-kicker">Today’s Activities</p>
+                <h2 class="event-schedule-title">Daily Event Schedule</h2>
+            </div>
+        </div>
+
+        <div class="schedule-list">
+
+            <?php 
+            $sched = $this->Address_model->schedule(); 
+
+            if (!empty($sched)):
+                foreach ($sched as $row):
+            ?>
+                <div class="schedule-item">
+                    <div class="schedule-date">
+                        <?= $row->cdate; ?>
+                        <strong><?= date('h:i A', strtotime($row->date_time)); ?></strong>
+                        <span>Time</span>
+                    </div>
+
+                    <div class="schedule-content">
+                        <h3><?= html_escape($row->event); ?> <?= !empty($row->category) ? '(' . html_escape($row->category) . ')' : ''; ?> <?= !empty($row->group) ? '- ' . html_escape($row->group) : ''; ?></h3>
+                        <p><?= html_escape($row->location); ?></p>
+                         <?php if (!empty($row->encoder)): ?>
+                            <p class="schedule-encoder">
+                                Encoded by: <?= $row->id; ?><span><?= html_escape($row->encoder); ?></span>
+                            </p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php 
+                endforeach;
+            else:
+            ?>
+                <p class="no-schedule">No schedule found.</p>
+            <?php endif; ?>
+
+        </div>
+    </div>
+</div>
+
+
                             <div class="winners-table-wrapper mt-3" id="eventsRecordedPanel" style="display:none;">
                                 <div class="winners-toolbar">
                                     <div class="winners-toolbar-left">
@@ -2153,6 +2749,7 @@
                 </div>
             </div>
         </div>
+        
 
         <!-- Events Recorded Modal -->
         <div class="modal fade" id="eventsRecordedModal" tabindex="-1" role="dialog" aria-labelledby="eventsRecordedModalLabel" aria-hidden="true">

@@ -53,6 +53,22 @@
                     </a>
                 </li>
 
+                <!-- announcement -->
+                <li class="<?= $isActive(['provincial/announcement']); ?>">
+                    <a href="<?= base_url('provincial/announcement'); ?>" class="waves-effect">
+                        <i class="ion ion-md-megaphone"></i>
+                        <span> Announcement </span>
+                    </a>
+                </li>
+
+                <!-- Schedule -->
+                <li class="<?= $isActive(['provincial/sched_list']); ?>">
+                    <a href="<?= base_url('provincial/sched_list'); ?>" class="waves-effect">
+                        <i class="far fa-calendar-alt"></i>
+                        <span> Event Schedule </span>
+                    </a>
+                </li>
+
                 <!-- Technical Officials -->
                 <li class="<?= $isActive(['provincial/technical']); ?>">
                     <a href="<?= base_url('provincial/technical'); ?>" class="waves-effect">

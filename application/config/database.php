@@ -8,9 +8,9 @@ $db['default'] = array(
 	'dsn'	=> '',
 
 	'hostname' => '127.0.0.1',
-	'username' => 'depedmis_davraa',
+	'username' => 'root',
 	'password' => 'moth34board',
-	'database' => 'depedmis_davraa',
+	'database' => 'palaro',
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

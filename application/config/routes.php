@@ -20,6 +20,8 @@ $route['provincial/technical'] = 'provincial/technical';
 $route['provincial/para'] = 'provincial/para';
 $route['provincial/events'] = 'provincial/events';
 
+$route['schedule'] = 'provincial/schedule_add';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['provincial/update-settings'] = 'provincial/update_meet_settings';

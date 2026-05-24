@@ -286,4 +286,62 @@ class Events_model extends CI_Model
 
         return $this->db->get()->row();
     }
+
+    public function schedule_save(){
+      $data = array( 
+              'date_time' => $this->input->post('cdate') .' '. $this->input->post('ctime'), 
+              'event' => $this->input->post('event'), 
+              'location' => $this->input->post('location'), 
+              'category' => $this->input->post('category'), 
+              'group' => $this->input->post('group'), 
+              'ctime' => $this->input->post('ctime'), 
+              'cdate' => $this->input->post('cdate'),
+              'encoder' => $this->input->post('encoder')
+      );
+  
+      return $this->db->insert('schedule', $data);
+    }
+
+    public function announcement_save(){
+      $data = array( 
+              'title' => $this->input->post('title'), 
+              'description' => $this->input->post('description'),
+              'stat' => 0
+      );
+  
+      return $this->db->insert('announcement', $data);
+    }
+
+    public function get_announcement()
+    {
+        $this->db->where('stat',0);
+        $this->db->order_by('id', 'DESC');
+
+        $query = $this->db->get('announcement');
+
+        return $query->result();
+    }
+
+    public function get_event_schedule()
+    {
+        //$this->db->where('stat',0);
+        $this->db->order_by('date_time', 'ASC');
+
+        $query = $this->db->get('schedule');
+
+        return $query->result();
+    }
+
+    public function delete($table, $col, $segment)
+    {
+        $id = $this->uri->segment($segment);
+        $this->db->where($col, $id);
+        $this->db->delete($table);
+        return true;
+    }
+
+    
+
+
+
 }

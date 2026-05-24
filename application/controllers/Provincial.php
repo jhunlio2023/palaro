@@ -1054,4 +1054,66 @@ class Provincial extends CI_Controller
         $data = $this->upload->data();
         return array('error' => false, 'message' => '', 'file' => $data['file_name']);
     }
+
+    public function schedule_add()
+    {
+            $page = "schedule";
+
+            if (!file_exists(APPPATH . 'views/' . $page . '.php')) {
+                show_404();
+            }
+
+            $data['title'] = "RECLASIFICATION FORM FOR TEACHING POSITIONS (RFTP)";
+
+            $this->load->view($page, $data);
+
+    }
+
+    public function sched_save(){
+            $recaptcha = $this->input->post('g-recaptcha-response');
+            $secret = '6Lc_jfgsAAAAAGh_teqh5g01650COQDVp3kBpYOj';
+
+            $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$recaptcha}");
+            $responseKeys = json_decode($response, true);
+
+            if (!$responseKeys["success"]) {
+                $this->session->set_flashdata('danger', 'reCAPTCHA verification failed. Please try again.');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+
+        $this->Events_model->schedule_save();
+        $this->session->set_flashdata('success', 'Successfully Updated.');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+
+    public function announcement()
+    {
+        
+        $data['an'] = $this->Events_model->get_announcement();
+
+        $this->load->view('announcement', $data);
+    }
+
+    public function announcement_add(){
+        $this->Events_model->announcement_save();
+        $this->session->set_flashdata('success', 'Successfully Updated.');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function sched_list()
+    {
+        
+        $data['an'] = $this->Events_model->get_event_schedule();
+
+        $this->load->view('events_schedule', $data);
+    }
+
+    public function delete(){
+        $this->Events_model->delete('schedule','id', 3);
+        $this->session->set_flashdata('success', 'Successfully Deleted.');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+
 }
