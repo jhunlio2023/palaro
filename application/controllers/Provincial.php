@@ -1102,8 +1102,7 @@ class Provincial extends CI_Controller
     }
 
     public function sched_list()
-    {
-        
+    { 
         $data['an'] = $this->Events_model->get_event_schedule();
 
         $this->load->view('events_schedule', $data);
@@ -1113,6 +1112,13 @@ class Provincial extends CI_Controller
         $this->Events_model->delete('schedule','id', 3);
         $this->session->set_flashdata('success', 'Successfully Deleted.');
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function sched_edit()
+    { 
+        $data['an'] = $this->Events_model->get_event_schedule();
+
+        $this->load->view('events_schedule_edit', $data);
     }
 
 

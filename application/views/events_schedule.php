@@ -157,6 +157,7 @@
                                                             <td><?= $row->group; ?></td>
                                                             <td><?= $row->encoder; ?></td>
                                                             <td class="text-center">
+                                                                <a href="<?= base_url(); ?>Provincial/sched_edit/<?= $row->id; ?>" class="far fa-edit text-success"></a> &nbsp;
                                                                 <a href="<?= base_url(); ?>Provincial/delete/<?= $row->id; ?>" onclick="return confirm('Are you sure?')" class="far fa-trash-alt text-danger"></a>
                                                             </td>
                                                         </tr>
