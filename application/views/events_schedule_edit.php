@@ -120,7 +120,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     
-<form method="post" action="<?= site_url('provincial/sched_save'); ?>" id="scheduleEntryForm">
+<form method="post" action="<?= site_url('provincial/sched_update'); ?>" id="scheduleEntryForm">
 
                     <div class="form-grid-box">
                         <div class="row">
@@ -131,7 +131,7 @@
                                         <i class="bi bi-person-badge-fill"></i>
                                         Encoder Full Name
                                     </label>
-                                    <input type="text" name="encoder" id="encoder" class="form-control" placeholder="Example: Juan P. Dela Cruz" required>
+                                    <input type="text" value="<?= $sched->encoder; ?>" name="encoder" id="encoder" class="form-control" placeholder="Example: Juan P. Dela Cruz" required>
                                 </div>
                             </div>
 
@@ -143,7 +143,7 @@
                                         <i class="bi bi-trophy-fill"></i>
                                         Event Name
                                     </label>
-                                    <input type="text" name="event" id="eventName" class="form-control" placeholder="Example: Archery" required>
+                                    <input type="text" name="event" id="eventName" value="<?= $sched->event; ?>" class="form-control" placeholder="Example: Archery" required>
                                 </div>
                             </div>
 
@@ -153,7 +153,7 @@
                                         <i class="bi bi-geo-alt-fill"></i>
                                         Venue / Location
                                     </label>
-                                    <input type="text" name="location" id="venue" class="form-control" placeholder="Example: Open Space - Labnig" required>
+                                    <input type="text" name="location" id="venue" value="<?= $sched->location; ?>" class="form-control" placeholder="Example: Open Space - Labnig" required>
                                 </div>
                             </div>
 
@@ -166,7 +166,7 @@
                                                 <i class="bi bi-calendar-event-fill"></i>
                                                 Date
                                             </label>
-                                            <input type="date" name="cdate" id="scheduleDate" class="form-control" required>
+                                            <input type="date" name="cdate" id="scheduleDate" value="<?= $sched->cdate; ?>" class="form-control" required>
                                         </div>
                                     </div>
 
@@ -176,7 +176,7 @@
                                                 <i class="bi bi-clock-fill"></i>
                                                 Time
                                             </label>
-                                            <input type="time" name="ctime" id="scheduleTime" class="form-control" required>
+                                            <input type="time" name="ctime" id="scheduleTime" value="<?= $sched->ctime; ?>" class="form-control" required>
                                         </div>
                                     </div>
 
@@ -194,9 +194,9 @@
                                             </label>
                                             <select name="group" id="eventGroup" class="custom-select">
                                                 <option value="">Select Group</option>
-                                                <option value="Elementary">Elementary</option>
-                                                <option value="Secondary">Secondary</option>
-                                                <option value="PARAGAMES">PARAGAMES</option>
+                                                <option <?php if($sched->group == 'Elementary'){echo 'selected';} ?> value="Elementary">Elementary</option>
+                                                <option <?php if($sched->group == 'Secondary'){echo 'selected';} ?> value="Secondary">Secondary</option>
+                                                <option <?php if($sched->group == 'PARAGAMES'){echo 'selected';} ?> value="PARAGAMES">PARAGAMES</option>
                                             </select>
                                         </div>
                                     </div>
@@ -207,7 +207,7 @@
                                                 <i class="bi bi-tags-fill"></i>
                                                 Category
                                             </label>
-                                            <input type="text" name="category" id="category" required class="form-control" placeholder="Example: Boys / Girls / Mixed">
+                                            <input type="text" name="category" value="<?= $sched->category; ?>" id="category" required class="form-control" placeholder="Example: Boys / Girls / Mixed">
                                         </div>
                                     </div>
 
@@ -217,15 +217,12 @@
                         </div>
                     </div>
 
+                    <input type="hidden" name="id" value="<?= $sched->id; ?>">
                     <div class="captcha-action-row">
-                        <div class="captcha-box">
-                            <div class="g-recaptcha" data-sitekey="6Lc_jfgsAAAAAG-2U_ClZ-QUSOPJ8vIreeX6DhiX"></div>
-                        </div>
-
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">
                                 <i class="bi bi-check-circle-fill"></i>
-                                Save Schedule
+                                Save
                             </button>
                         </div>
                     </div>

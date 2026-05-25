@@ -340,6 +340,30 @@ class Events_model extends CI_Model
         return true;
     }
 
+    public function one_cond_row($table, $col, $val)
+    {
+        $this->db->where($col, $val);
+        $result = $this->db->get($table)->row();
+        return $result;
+    }
+
+    public function schedule_update(){
+      $data = array( 
+              'date_time' => $this->input->post('cdate') .' '. $this->input->post('ctime'), 
+              'event' => $this->input->post('event'), 
+              'location' => $this->input->post('location'), 
+              'category' => $this->input->post('category'), 
+              'group' => $this->input->post('group'), 
+              'ctime' => $this->input->post('ctime'), 
+              'cdate' => $this->input->post('cdate'),
+              'encoder' => $this->input->post('encoder')
+      );
+  
+      $this->db->where('id', $this->input->post('id'));
+      return $this->db->update('schedule', $data);
+  
+    }
+
     
 
 

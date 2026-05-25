@@ -1116,9 +1116,15 @@ class Provincial extends CI_Controller
 
     public function sched_edit()
     { 
-        $data['an'] = $this->Events_model->get_event_schedule();
+        $data['sched'] = $this->Events_model->one_cond_row('schedule','id',$this->uri->segment(3));
 
         $this->load->view('events_schedule_edit', $data);
+    }
+
+    public function sched_update(){
+        $this->Events_model->schedule_update();
+        $this->session->set_flashdata('success', 'Successfully Updated.');
+        redirect(base_url().'provincial/sched_list');
     }
 
 
