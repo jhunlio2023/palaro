@@ -82,7 +82,7 @@ class Address_model extends CI_Model
     public function schedule()
     {
         //$today = date('Y-m-d');
-        $today = '2026-05-25';
+        $today = '2026-05-26';
 
         $this->db->where('DATE(date_time)', $today);
         $this->db->order_by('TIME(date_time)', 'ASC', false);
