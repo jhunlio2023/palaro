@@ -1090,7 +1090,7 @@ class Provincial extends CI_Controller
     public function announcement()
     {
         
-        $data['an'] = $this->Events_model->get_announcement();
+        $data['an'] = $this->Events_model->get_announcement_admin();
 
         $this->load->view('announcement', $data);
     }

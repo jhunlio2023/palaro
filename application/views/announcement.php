@@ -135,7 +135,7 @@
                                                 <tr>
                                                     <th>Title</th>
                                                     <th> Description </th>
-                                                    <th class="text-right" style="width: 140px;">Actions</th>
+                                                    <th class="text-center">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -144,7 +144,9 @@
                                                         <tr>
                                                             <td><?= $row->title; ?></td>
                                                             <td><?= $row->description; ?></td>
-                                                            <td></td>
+                                                            <td class="text-center">
+                                                                <a href="#" class="btn btn-success btn-sm">Status</a>
+                                                            </td>
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 <?php else: ?>

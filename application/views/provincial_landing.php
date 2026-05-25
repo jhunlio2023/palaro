@@ -1764,8 +1764,8 @@
 
 .announcement-content p {
     margin: 6px 0 0;
-    color: rgba(139, 13, 20, 0.58);
-    font-size: 0.64rem;
+    color: #1F2937;
+    font-size: 13px;
     font-weight: 800;
 }
 
@@ -1881,6 +1881,9 @@
     }
     .schedule-content p{
         font-size:8px;
+    }
+    .announcement-content p{
+        font-size:12px;
     }
 }
 

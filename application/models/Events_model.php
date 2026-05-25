@@ -322,6 +322,16 @@ class Events_model extends CI_Model
         return $query->result();
     }
 
+    public function get_announcement_admin()
+    {
+        //$this->db->where('stat',0);
+        $this->db->order_by('id', 'DESC');
+
+        $query = $this->db->get('announcement');
+
+        return $query->result();
+    }
+
     public function get_event_schedule()
     {
         //$this->db->where('stat',0);
